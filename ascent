@@ -2,18 +2,24 @@
 
 import argparse
 from src.install import Packages
+import sys
 
 version = '0.0.1'
 
-def main():
-	parser = argparse.ArgumentParser()
+def main() -> None:
+	parser = argparse.ArgumentParser("Ascent Package Manager")
 	parser.add_argument('-S', '--install', dest="install", nargs='*', help="Install a package")
 	parser.add_argument('-v', '--version', action='version', version=f'%(prog)s {version}')
 	args = parser.parse_args()
 
+	if len(sys.argv) < 2:
+		parser.print_help()
+		sys.exit(1)
+
 	if args.install:
 		install = Packages(args.install, "etc/ascent.conf")
 		install.install()
+	
 
 if __name__ == '__main__':
 	main()

@@ -1,33 +1,13 @@
 import configparser
-import findAndReplace
-
-PATH = '../etc/ascent'
+from . import findAndReplace
 class parse:
 	def __init__(self, configfile):
 		self.configfile = configfile
-		self.parseConfig()
+		self.path = self.configfile.split('/')[:2]
+		self.path = f"{self.path[0]}/{self.path[1]}"
 
 	def parseConfig(self):
-		config = configparser.ConfigParser()
-		config.read(self.configfile)
-		config.sections()
-		urls = []
-		
-		for section in config:
-			try:
-				if config[section]['Server']:
-					repoPath = config[section]['Server']
-					with open(f"{PATH}/{repoPath}", 'r') as f:
-						lines = f.readlines()
-						for line in lines:
-							string = findAndReplace.findAndReplace(line, section)
-							string = string.replace()
-							url = f"{string}/repo-pub.json"
-							urls.append(url)
-			except KeyError as err:
-				continue
-			
-			return urls
+		pass
 
 	def getRepoUrl(self):
 		config = configparser.ConfigParser()
@@ -39,7 +19,7 @@ class parse:
 			try:
 				if config[section]['Server']:
 					repoPath = config[section]['Server']
-					with open(f"{PATH}/{repoPath}", 'r') as f:
+					with open(f"{self.path}/{repoPath}", 'r') as f:
 						lines = f.readlines()
 						for line in lines:
 							string = findAndReplace.findAndReplace(line, section)
@@ -49,6 +29,4 @@ class parse:
 			except KeyError as err:
 				continue
 			
-			return urls
-
-parse(f"{PATH}/ascent.conf")
+		return urls

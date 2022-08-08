@@ -8,7 +8,8 @@ version = '0.0.1'
 
 def main() -> None:
 	parser = argparse.ArgumentParser("Ascent Package Manager")
-	parser.add_argument('-S', '--install', dest="install", nargs='*', help="Install a package")
+	parser.add_argument('-S', '--install', dest="install", nargs='*', help="Install one or more packages")
+	parser.add_argument('-s', '--search', dest="search", nargs='*', help="Search for one or more packages")
 	parser.add_argument('-v', '--version', action='version', version=f'%(prog)s {version}')
 	args = parser.parse_args()
 
@@ -19,6 +20,10 @@ def main() -> None:
 	if args.install:
 		install = Packages(args.install, "etc/ascent.conf")
 		install.install()
+	
+	if args.search:
+		install = Packages(args.search, "etc/ascent.conf")
+		install.search()
 	
 
 if __name__ == '__main__':
